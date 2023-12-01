@@ -43,6 +43,14 @@ def register():
 def registration_complete():
     return render_template('registration_complete.html')
 
+@app.route('/stamp')
+def stamp():
+    return render_template('stamp_rally.html')
+
+@app.route('/kenrokuen', methods=['GET', 'POST'])
+def kenrokuen():
+    return render_template('kenrokuen.html')
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
