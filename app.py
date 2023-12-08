@@ -23,6 +23,13 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
+    
+class Comment(db.Model):
+    tablename = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(20), nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    comment_date = db.Column(db.DateTime, nullable=False)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -38,9 +45,9 @@ def register():
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
-
-        hashed_password = generate_password_hash(password, method='sha256')
-        new_user = User(name=name, email=email, password=hashed_password)
+        # パスワードのハッシュ化(時間があったらエラー解決)
+        # hashed_password = generate_password_hash(password, method='sha256')
+        new_user = User(name=name, email=email, password=password)
         try:
             db.session.add(new_user)
             db.session.commit()
@@ -82,6 +89,19 @@ def kenrokuen():
     return render_template('kenrokuen.html')
 
 # その他のルートと関数...
+
+@app.route('/comment', methods=['GET', 'POST'])
+def comment():
+    if request.method == 'POST':
+        name = request.form['name']
+        comment = request.form['comment']
+        comment_date = datetime.now()
+        new_comment = Comment(user=name, comment=comment, comment_date=comment_date)
+        db.session.add(new_comment)
+        db.session.commit()
+        # kenrokuen以外に設定する必要あり
+        return redirect(url_for('kenrokuen')) 
+
 
 if __name__ == '__main__':
     with app.app_context():
