@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 from werkzeug.security import generate_password_hash
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 秘密キーの設定
@@ -22,6 +23,13 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(20), nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    comment_date = db.Column(db.DateTime, nullable=False)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -80,7 +88,17 @@ def stamp():
 def kenrokuen():
     return render_template('kenrokuen.html')
 
-# その他のルートと関数...
+@app.route('/comment', methods=['GET', 'POST'])
+def comment():
+    if request.method == 'POST':
+        name = request.form['name']
+        comment = request.form['comment']
+        comment_date = datetime.now()
+        new_comment = Comment(user=name, comment=comment, comment_date=comment_date)
+        db.session.add(new_comment)
+        db.session.commit()
+        # kenrokuen以外に設定する必要あり
+        return redirect(url_for('kenrokuen'))
 
 if __name__ == '__main__':
     with app.app_context():
