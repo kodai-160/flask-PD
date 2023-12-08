@@ -22,7 +22,14 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
+    stamps = db.relationship('Stamp', backref='user', lazy=True)
 
+# class Stamp(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(50), unique=True, nullable=False)
+#     stamped = db.Column(db.Boolean, default=False, nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # 外部キーとしてUserのIDを参照
+    
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -80,8 +87,17 @@ def stamp():
 def kenrokuen():
     return render_template('kenrokuen.html')
 
-# その他のルートと関数...
+# @app.route('/stamp_card')
+# def stamp_card():
+#     user_id = session.get('user_id')
+#     if not user_id:
+#         return redirect(url_for('login'))
+#     user = User.query.get(user_id)
+#     # すべてのスタンプを取得してテンプレートに渡す
+#     stamps = Stamp.query.filter_by(user_id=user_id).all()
+#     return render_template('stamp_card.html', stamps=stamps)
 
+    
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

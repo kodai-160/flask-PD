@@ -22,7 +22,9 @@ body {
     border-radius: 50%; /* 丸型にするためのスタイル */
     line-height: 100px; /* テキストを垂直方向の中央に配置 */
     vertical-align: middle; /* テキストを水平方向の中央に配置 */
+    text-decoration: none; /* リンクのアンダーラインを除去 */
 }
+
 .row:nth-child(2) .stamp:nth-child(1) { background-color: rgba(255, 99, 132, 0.3); }
 .row:nth-child(2) .stamp:nth-child(2) { background-color: rgba(54, 162, 235, 0.3); }
 .row:nth-child(2) .stamp:nth-child(3) { background-color: rgba(255, 206, 86, 0.3); }

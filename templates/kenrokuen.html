@@ -15,9 +15,6 @@
         </header>
         <h1>兼六園</h1>
         <p>-------------</p>
-                
-        <button onclick="startCamera()">QRコード読みとり</button>
-        <video></video>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <video id="video" style="display:none;"></video>
         <canvas id="canvas" style="display:none;"></canvas>
@@ -54,9 +51,19 @@
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             stopCamera();
-                            alert(`QRコード検出: ${code.data}`);
-                            return;
+                            // フォームを作成してQRコードのデータを送信
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = url_for('scan_qr');
+                            const hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.name = 'qr_data';
+                            hiddenField.value = code.data;
+                            form.appendChild(hiddenField);
+                            document.body.appendChild(form);
+                            form.submit();
                         }
+                        
                     }
                     requestAnimationFrame(scan);
                 };
@@ -76,6 +83,5 @@
         <p>-------------</p>
         <p>地図</p>
         <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
-        <p>コメント機能</p>
-        
+        <p>コメント機能</p>    
     </body> 
