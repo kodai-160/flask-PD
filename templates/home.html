@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>ホーム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 <body>
-    <p>ようこそ</p>
+    <div class="header">
+        <span class="title">おしまっし金沢</span>
+        <!-- ユーザーがログインしていない場合 -->
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('register') }}">Sign up</a>
+        <a href="{{ url_for('login') }}">Sign in</a>
+        <!-- ユーザーがログインしている場合 -->
+        {% else %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+    <div class="welcome">
+        <p>ようこそ</p>
+    </div>
 </body>
+</html>
