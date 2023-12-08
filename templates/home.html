@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="header">
-        <span class="title">おしまっし金沢</span>
+        <a href="/" class="title">おしまっし金沢</a>
         <!-- ユーザーがログインしていない場合 -->
         {% if not current_user.is_authenticated %}
         <a href="{{ url_for('register') }}">Sign up</a>
@@ -16,7 +16,7 @@
         <!-- ユーザーがログインしている場合 -->
         {% else %}
         <a href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
+    {% endif %}
     </div>
     <div class="welcome">
         <p>ようこそ</p>
