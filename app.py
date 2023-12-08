@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 秘密キーの設定
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.urandom(24)
+# app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager()
@@ -78,7 +78,7 @@ def stamp():
 
 @app.route('/kenrokuen')
 def kenrokuen():
-    render_template('kenrokuen.html')
+    return render_template('kenrokuen.html')
 
 # その他のルートと関数...
 

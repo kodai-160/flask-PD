@@ -9,11 +9,10 @@
     {% include 'home.html' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally.css') }}">
     <h1>スタンプラリー</h1>
-    <form method="post" action="{{ url_for('kenrokuen') }}">
         <div class="stamp-card">
             <h2>スタンプカード</h2>
             <div class="row">
-                <button type="submit" name="stamp" value="兼六園" class="stamp">兼六園</button>
+                <button type="submit" name="stamp" value="兼六園" class="stamp"><a href="{{ url_for('kenrokuen')}}">兼六園</a></button>
                 <button type="submit" name="stamp" value="金沢城" class="stamp">金沢城</button>
                 <button type="submit" name="stamp" value="21世紀美術館" class="stamp">21世紀美術館</button>
             </div>
