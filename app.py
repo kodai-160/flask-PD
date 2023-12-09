@@ -86,7 +86,8 @@ def stamp():
 
 @app.route('/kenrokuen')
 def kenrokuen():
-    return render_template('kenrokuen.html')
+    comments = Comment.query.all()
+    return render_template('kenrokuen.html', comments=comments)
 
 # その他のルートと関数...
 

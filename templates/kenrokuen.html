@@ -101,4 +101,11 @@
             </form>
         </div>
         <p>コメント一覧</p> 
+        {% for comment in comments%}
+            <li>
+                <p>名前：{{ comment.user }}</p>
+                <p>コメント：{{ comment.comment }}</p>
+                <p>投稿日：{{ comment.comment_date }}</p>
+            </li>
+        {% endfor %}
     </body> 
