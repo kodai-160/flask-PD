@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user, Use
 from werkzeug.security import generate_password_hash
 import os
 from datetime import datetime
+from flask import *
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 秘密キーの設定
@@ -30,6 +31,16 @@ class Comment(db.Model):
     user = db.Column(db.String(20), nullable=False)
     comment = db.Column(db.Text, nullable=False)
     comment_date = db.Column(db.DateTime, nullable=False)
+    
+class Stamp(db.Model):
+    __tablename__ = 'stamp'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    station_name = db.Column(db.String(50), nullable=False)
+    collected = db.Column(db.Boolean, default=False, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user = db.relationship('User', backref=db.backref('stamps', lazy='dynamic'))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -88,8 +99,6 @@ def stamp():
 def kenrokuen():
     return render_template('kenrokuen.html')
 
-# その他のルートと関数...
-
 @app.route('/comment', methods=['GET', 'POST'])
 def comment():
     if request.method == 'POST':
@@ -101,6 +110,27 @@ def comment():
         db.session.commit()
         # kenrokuen以外に設定する必要あり
         return redirect(url_for('kenrokuen')) 
+    
+@app.route('/update_stamp', methods=['POST'])
+@login_required
+def update_stamp():
+    station_name = request.form['station']
+    # 現在のユーザーのスタンプを検索または作成
+    stamp = Stamp.query.filter_by(user_id=current_user.id, station_name=station_name).first()
+    if not stamp:
+        stamp = Stamp(user_id=current_user.id, station_name=station_name, collected=True)
+        db.session.add(stamp)
+    else:
+        stamp.collected = True  # 既に存在する場合は、collectedをTrueに設定
+    db.session.commit()
+    return '', 204  # 成功した場合は204 No Contentを返す
+
+@app.route('/get_stamps')
+@login_required
+def get_stamps():
+    stamps = Stamp.query.filter_by(user_id=current_user.id).all()
+    stamp_list = [{'station_name': stamp.station_name, 'collected': stamp.collected} for stamp in stamps]
+    return jsonify(stamps=stamp_list)
 
 
 if __name__ == '__main__':

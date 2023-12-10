@@ -4,29 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>スタンプラリーの台紙</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally.css') }}">
 </head>
 <body>
     {% include 'home.html' %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally.css') }}">
     <h1>スタンプラリー</h1>
-        <div class="stamp-card">
-            <h2>スタンプカード</h2>
-            <div class="row">
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-            </div>
-            <div class="row">
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-            </div>
-            <div class="row">
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-                <a href="{{ url_for('kenrokuen') }}" class="stamp">兼六園</a>
-            </div>
+    <div class="stamp-card">
+        <h2>スタンプカード</h2>
+        <div class="row">
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen" class="stamp">兼六園</a>
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-2" class="stamp">兼六園</a>
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-3" class="stamp">兼六園</a>
         </div>
-    </form>
+        <div class="row">
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-4" class="stamp">兼六園</a>
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-5" class="stamp">兼六園</a>
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-6" class="stamp">兼六園</a>
+        </div>
+        <div class="row">
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-7" class="stamp">兼六園</a>
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-8" class="stamp">兼六園</a>
+            <a href="{{ url_for('kenrokuen') }}" id="stamp-kenrokuen-9" class="stamp">兼六園</a>
+        </div>
+    </div>
 </body>
 </html>
