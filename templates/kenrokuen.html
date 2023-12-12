@@ -21,23 +21,12 @@
         <canvas id="canvas" style="display:none;"></canvas>
         <script>
             let videoStream;
-
+    
             function fetchStampsAndUpdateUI() {
                 console.log('Fetching stamps and updating UI');
-                fetch('/get_stamps')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.stamps) {
-                            data.stamps.forEach(stamp => {
-                                updateStampUI(stamp.station_name);
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching stamps:', error);
-                    });
+                // 他の部分のコードが必要な場合はここに追加してください。
             }
-        
+    
             function startCamera() {
                 const videoElement = document.getElementById('video');
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -52,13 +41,13 @@
                         alert('カメラにアクセスできません。カメラの許可を確認してください。');
                     });
             }
-        
+    
             function scanQRCode() {
                 const videoElement = document.getElementById('video');
                 const canvasElement = document.getElementById('canvas');
                 const canvasContext = canvasElement.getContext('2d');
                 canvasElement.style.display = 'block';
-        
+    
                 const scan = () => {
                     if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
                         canvasElement.height = videoElement.videoHeight;
@@ -66,11 +55,11 @@
                         canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
                         const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
-        
+    
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'kenrokuen') {
-                                updateStampStatus(code.data);
+                                updateStampStatus('stamp1'); // `stamp1`はkenrokuenのスタンプの`name`です。
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -78,44 +67,51 @@
                     }
                     requestAnimationFrame(scan);
                 };
-        
+    
                 scan();
             }
-        
-            function updateStampStatus(stationName) {
-                console.log(`Sending update for ${stationName}`);
+    
+            function updateStampStatus(name) {
+                console.log(`Sending update for ${name}`);
                 fetch('/update_stamp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `station=${encodeURIComponent(stationName)}`
+                    body: `name=${encodeURIComponent(name)}`
                 })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    return response.text();
+                    return response.json();
                 })
-                .then(text => {
-                    console.log('Stamp updated successfully:', text);
-                    updateStampUI(stationName);
+                .then(data => {
+                    // サーバーからの応答に基づいてUIを更新
+                    if (data.message === 'Stamp updated.') {
+                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                    } else {
+                        console.error('Stamp update failed:', data.message);
+                    }
                 })
                 .catch(error => {
-                    console.error('Error updating stamp:', error);
+                    console.error('Error during stamp update:', error);
                 });
             }
-        
-            function updateStampUI(stationName) {
-                // IDを修正しました: 'stamp-kenrokuen' というIDを期待しています
-                const stampElement = document.getElementById(`stamp-${stationName}`);
+            
+            function updateStampUI(name, collected) {
+                const stampElement = document.getElementById(`stamp-${name}`);
                 if (stampElement) {
-                    stampElement.classList.add('collected');
-                } else {
-                    console.log(`Element with id stamp-${stationName} not found`);
+                    if (collected) {
+                        stampElement.classList.remove('uncollected');
+                        stampElement.classList.add('collected');
+                    } else {
+                        stampElement.classList.remove('collected');
+                        stampElement.classList.add('uncollected');
+                    }
                 }
             }
-
+    
             function stopCamera() {
                 const videoElement = document.getElementById('video');
                 videoElement.pause();
@@ -126,10 +122,10 @@
                 const canvasElement = document.getElementById('canvas');
                 canvasElement.style.display = 'none';
             }
-        
+    
             document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
             document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
-        </script>
+        </script> 
         
         
         
@@ -154,12 +150,13 @@
                 </div>
             </form>
         </div>
-        <p>コメント一覧</p> 
-        {% for comment in comments%}
+        <p>コメント一覧</p>
+        {% for comment in comments %}
             <li>
-                <p>名前：{{ comment.user }}</p>
+                <p>名前：{{ comment.author.name }}</p>
                 <p>コメント：{{ comment.comment }}</p>
-                <p>投稿日：{{ comment.comment_date }}</p>
+                <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
             </li>
         {% endfor %}
+        
     </body> 
