@@ -18,14 +18,20 @@
         </header>
         <p>-------------</p>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
+        <button id="stop-camera-btn">カメラ停止</button>
         <video id="video" style="display:none;"></video>
         <canvas id="canvas" style="display:none;"></canvas>
         <script>
             let videoStream;
     
+            function fetchStampsAndUpdateUI() {
+                console.log('Fetching stamps and updating UI');
+                // 他の部分のコードが必要な場合はここに追加してください。
+            }
+    
             function startCamera() {
                 const videoElement = document.getElementById('video');
-                navigator.mediaDevices.getUserMedia({ video: true })
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then((stream) => {
                         videoStream = stream;
                         videoElement.srcObject = stream;
@@ -34,6 +40,7 @@
                     })
                     .catch((error) => {
                         console.error('カメラのアクセスに失敗しました:', error);
+                        alert('カメラにアクセスできません。カメラの許可を確認してください。');
                     });
             }
     
@@ -41,6 +48,7 @@
                 const videoElement = document.getElementById('video');
                 const canvasElement = document.getElementById('canvas');
                 const canvasContext = canvasElement.getContext('2d');
+                canvasElement.style.display = 'block';
     
                 const scan = () => {
                     if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
@@ -52,20 +60,12 @@
     
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            stopCamera();
-                            // フォームを作成してQRコードのデータを送信
-                            const form = document.createElement('form');
-                            form.method = 'POST';
-                            form.action = url_for('scan_qr');
-                            const hiddenField = document.createElement('input');
-                            hiddenField.type = 'hidden';
-                            hiddenField.name = 'qr_data';
-                            hiddenField.value = code.data;
-                            form.appendChild(hiddenField);
-                            document.body.appendChild(form);
-                            form.submit();
+                            if (code.data === 'kenrokuen') {
+                                updateStampStatus('stamp1'); // `stamp1`はkenrokuenのスタンプの`name`です。
+                            } else {
+                                alert('スキャンされたQRコードが一致しません。');
+                            }
                         }
-                        
                     }
                     requestAnimationFrame(scan);
                 };
@@ -73,14 +73,62 @@
                 scan();
             }
     
-            function stopCamera() {
-                if (videoStream) {
-                    videoStream.getTracks().forEach(track => {
-                        track.stop();
-                    });
+            function updateStampStatus(name) {
+                console.log(`Sending update for ${name}`);
+                fetch('/update_stamp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `name=${encodeURIComponent(name)}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // サーバーからの応答に基づいてUIを更新
+                    if (data.message === 'Stamp updated.') {
+                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                    } else {
+                        console.error('Stamp update failed:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during stamp update:', error);
+                });
+            }
+            
+            function updateStampUI(name, collected) {
+                const stampElement = document.getElementById(`stamp-${name}`);
+                if (stampElement) {
+                    if (collected) {
+                        stampElement.classList.remove('uncollected');
+                        stampElement.classList.add('collected');
+                    } else {
+                        stampElement.classList.remove('collected');
+                        stampElement.classList.add('uncollected');
+                    }
                 }
             }
-        </script>
+    
+            function stopCamera() {
+                const videoElement = document.getElementById('video');
+                videoElement.pause();
+                videoElement.srcObject = null;
+                if (videoStream) {
+                    videoStream.getTracks().forEach(track => track.stop());
+                }
+                const canvasElement = document.getElementById('canvas');
+                canvasElement.style.display = 'none';
+            }
+    
+            document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
+            document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
+        </script> 
+
         <p>-------------</p>
         <h1>説明文</h1>
         <p>日本三名園として著名で、国の特別名勝に指定されています。広大な園内には築山、池、茶屋などがあり、四季折々の自然美を楽しむことができます。冬には雪吊りが施され、夜のライトアップでは幻想的な庭園が広がります。</p>
@@ -103,12 +151,13 @@
                 </div>
             </form>
         </div>
-        <p>コメント一覧</p> 
-        {% for comment in comments%}
+        <p>コメント一覧</p>
+        {% for comment in comments %}
             <li>
-                <p>名前：{{ comment.user }}</p>
+                <p>名前：{{ comment.author.name }}</p>
                 <p>コメント：{{ comment.comment }}</p>
-                <p>投稿日：{{ comment.comment_date }}</p>
+                <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
             </li>
         {% endfor %}
+        
     </body> 
