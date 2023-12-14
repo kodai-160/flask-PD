@@ -4,16 +4,18 @@
         <meta charset="utf-8">
         <title>兼六園</title>
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/kenrokuen.css') }}">
     </head>
     <body>
         <header>
-            <div>
-                <a href="../">ホーム</a>
-                <a href="../stamp">スタンプ</a>
-                <a href="../sample">kenrokuen</a>
+            <div class="header_flex">
+                <div>
+                    <p><a href="../">ホーム</a></p>
+                    <p><a href="../stamp">スタンプ</a></p>
+                    <p>兼六園</p>
+                </div>
             </div>
         </header>
-        <h1>兼六園</h1>
         <p>-------------</p>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <video id="video" style="display:none;"></video>
@@ -78,9 +80,10 @@
                     });
                 }
             }
-            
         </script>
         <p>-------------</p>
+        <h1>説明文</h1>
+        <p>日本三名園として著名で、国の特別名勝に指定されています。広大な園内には築山、池、茶屋などがあり、四季折々の自然美を楽しむことができます。冬には雪吊りが施され、夜のライトアップでは幻想的な庭園が広がります。</p>
         <p>地図</p>
         <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
 
