@@ -118,50 +118,50 @@ def stamp():
     # テンプレートにスタンプの状態を渡す
     return render_template('stamp_rally_morning.html', stamps_status=stamps_status)
 
-@app.route('/morning/stamp1')
+@app.route('/noon/stamp1')
 def stamp1():
     comments = Comment.query.all()
-    return render_template('/morning/stamp1.html', comments=comments)
+    return render_template('/noon/stamp1.html', comments=comments)
 
-@app.route('/morning/stamp2')
+@app.route('/noon/stamp2')
 def stamp2():
     comments = Comment.query.all()
-    return render_template('/morning/stamp2.html', comments=comments)
+    return render_template('/noon/stamp2.html', comments=comments)
 
-@app.route('/morning/stamp3')
+@app.route('/noon/stamp3')
 def stamp3():
     comments = Comment.query.all()
-    return render_template('/morning/stamp3.html', comments=comments)
+    return render_template('/noon/stamp3.html', comments=comments)
 
-@app.route('/morning/stamp4')
+@app.route('/noon/stamp4')
 def stamp4():
     comments = Comment.query.all()
-    return render_template('/morning/stamp4.html', comments=comments)
+    return render_template('/noon/stamp4.html', comments=comments)
 
-@app.route('/morning/stamp5')
+@app.route('/noon/stamp5')
 def stamp5():
     comments = Comment.query.all()
-    return render_template('/morning/stamp5.html', comments=comments)
+    return render_template('/noon/stamp5.html', comments=comments)
 
-@app.route('/morning/stamp6')
+@app.route('/noon/stamp6')
 def stamp6():
     comments = Comment.query.all()
-    return render_template('/morning/stamp6.html', comments=comments)
+    return render_template('/noon/stamp6.html', comments=comments)
 
-@app.route('/morning/stamp7')
+@app.route('/noon/stamp7')
 def stamp7():
     comments = Comment.query.all()
-    return render_template('/morning/stamp7.html', comments=comments)
+    return render_template('/noon/stamp7.html', comments=comments)
 
-@app.route('/morning/stamp8')
+@app.route('/noon/stamp8')
 def stamp8():
     comments = Comment.query.all()
-    return render_template('/morning/stamp8.html', comments=comments)
+    return render_template('/noon/stamp8.html', comments=comments)
 
-@app.route('/morning/stamp9')
+@app.route('/noon/stamp9')
 def stamp9():
     comments = Comment.query.all()
-    return render_template('/morning/stamp9.html', comments=comments)
+    return render_template('/noon/stamp9.html', comments=comments)
 
 @app.route('/comment', methods=['GET', 'POST'])
 def comment():
