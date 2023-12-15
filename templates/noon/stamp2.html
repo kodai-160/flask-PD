@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>兼六園</title>
+        <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    </head>
+    <body>
+        <header>
+            <div>
+                <a href="../">ホーム</a>
+                <a href="../stamp">スタンプ</a>
+                <a href="../sample">kenrokuen</a>
+            </div>
+        </header>
+        <h1>兼六園</h1>
+        <p>-------------</p>
+        <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
+        <button id="stop-camera-btn">カメラ停止</button>
+        <video id="video" style="display:none;"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <script>
+            let videoStream;
+    
+            function fetchStampsAndUpdateUI() {
+                console.log('Fetching stamps and updating UI');
+                // 他の部分のコードが必要な場合はここに追加してください。
+            }
+    
+            function startCamera() {
+                const videoElement = document.getElementById('video');
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                    .then((stream) => {
+                        videoStream = stream;
+                        videoElement.srcObject = stream;
+                        videoElement.play();
+                        scanQRCode();
+                    })
+                    .catch((error) => {
+                        console.error('カメラのアクセスに失敗しました:', error);
+                        alert('カメラにアクセスできません。カメラの許可を確認してください。');
+                    });
+            }
+    
+            function scanQRCode() {
+                const videoElement = document.getElementById('video');
+                const canvasElement = document.getElementById('canvas');
+                const canvasContext = canvasElement.getContext('2d');
+                canvasElement.style.display = 'block';
+    
+                const scan = () => {
+                    if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                        canvasElement.height = videoElement.videoHeight;
+                        canvasElement.width = videoElement.videoWidth;
+                        canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                        const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
+    
+                        if (code) {
+                            console.log('QRコード検出:', code.data);
+                            if (code.data === 'kenrokuen') {
+                                updateStampStatus('stamp2'); // `stamp1`はkenrokuenのスタンプの`name`です。
+                            } else {
+                                alert('スキャンされたQRコードが一致しません。');
+                            }
+                        }
+                    }
+                    requestAnimationFrame(scan);
+                };
+    
+                scan();
+            }
+    
+            function updateStampStatus(name) {
+                console.log(`Sending update for ${name}`);
+                fetch('/update_stamp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `name=${encodeURIComponent(name)}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // サーバーからの応答に基づいてUIを更新
+                    if (data.message === 'Stamp updated.') {
+                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                    } else {
+                        console.error('Stamp update failed:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during stamp update:', error);
+                });
+            }
+            
+            function updateStampUI(name, collected) {
+                const stampElement = document.getElementById(`stamp-${name}`);
+                if (stampElement) {
+                    if (collected) {
+                        stampElement.classList.remove('uncollected');
+                        stampElement.classList.add('collected');
+                    } else {
+                        stampElement.classList.remove('collected');
+                        stampElement.classList.add('uncollected');
+                    }
+                }
+            }
+    
+            function stopCamera() {
+                const videoElement = document.getElementById('video');
+                videoElement.pause();
+                videoElement.srcObject = null;
+                if (videoStream) {
+                    videoStream.getTracks().forEach(track => track.stop());
+                }
+                const canvasElement = document.getElementById('canvas');
+                canvasElement.style.display = 'none';
+            }
+    
+            document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
+            document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
+        </script> 
+        
+        
+        
+        
+        <p>-------------</p>
+        <p>地図</p>
+        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
+
+        <p>コメント投稿</p>
+        <div>
+            <form action="/comment" method="post">
+                <div>
+                    <label for="name">名前</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div>
+                    <label for="comment">コメント</label>
+                    <textarea name="comment" id="comment"></textarea>
+                </div>
+                <div>
+                    <button type="submit">投稿</button>
+                </div>
+            </form>
+        </div>
+        <p>コメント一覧</p>
+        {% for comment in comments %}
+            <li>
+                <p>名前：{{ comment.author.name }}</p>
+                <p>コメント：{{ comment.comment }}</p>
+                <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
+            </li>
+        {% endfor %}
+        
+    </body> 
