@@ -163,6 +163,96 @@ def stamp9():
     comments = Comment.query.all()
     return render_template('/morning/stamp9.html', comments=comments)
 
+@app.route('/noon/stamp1')
+def noon_stamp1():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp1.html', comments=comments)
+
+@app.route('/noon/stamp2')
+def noon_stamp2():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp2.html', comments=comments)
+
+@app.route('/noon/stamp3')
+def noon_stamp3():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp3.html', comments=comments)
+
+@app.route('/noon/stamp4')
+def noon_stamp4():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp4.html', comments=comments)
+
+@app.route('/noon/stamp5')
+def noon_stamp5():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp5.html', comments=comments)
+
+@app.route('/noon/stamp6')
+def noon_stamp6():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp6.html', comments=comments)
+
+@app.route('/noon/stamp7')
+def noon_stamp7():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp7.html', comments=comments)
+
+@app.route('/noon/stamp8')
+def noon_stamp8():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp8.html', comments=comments)
+
+@app.route('/noon/stamp9')
+def noon_stamp9():
+    comments = Comment.query.all()
+    return render_template('/noon/stamp9.html', comments=comments)
+
+@app.route('/night/stamp1')
+def night_stamp1():
+    comments = Comment.query.all()
+    return render_template('/night/stamp1.html', comments=comments)
+
+@app.route('/night/stamp2')
+def night_stamp2():
+    comments = Comment.query.all()
+    return render_template('/night/stamp2.html', comments=comments)
+
+@app.route('/night/stamp3')
+def night_stamp3():
+    comments = Comment.query.all()
+    return render_template('/night/stamp3.html', comments=comments)
+
+@app.route('/night/stamp4')
+def night_stamp4():
+    comments = Comment.query.all()
+    return render_template('/night/stamp4.html', comments=comments)
+
+@app.route('/night/stamp5')
+def night_stamp5():
+    comments = Comment.query.all()
+    return render_template('/night/stamp5.html', comments=comments)
+
+@app.route('/night/stamp6')
+def night_stamp6():
+    comments = Comment.query.all()
+    return render_template('/night/stamp6.html', comments=comments)
+
+@app.route('/night/stamp7')
+def night_stamp7():
+    comments = Comment.query.all()
+    return render_template('/night/stamp7.html', comments=comments)
+
+@app.route('/night/stamp8')
+def night_stamp8():
+    comments = Comment.query.all()
+    return render_template('/night/stamp8.html', comments=comments)
+
+@app.route('/night/stamp9')
+def night_stamp9():
+    comments = Comment.query.all()
+    return render_template('/night/stamp9.html', comments=comments)
+
 @app.route('/comment', methods=['GET', 'POST'])
 def comment():
     if request.method == 'POST':
@@ -172,7 +262,7 @@ def comment():
         new_comment = Comment(user_id=current_user.id, comment=comment_text, comment_date=comment_date)
         db.session.add(new_comment)
         db.session.commit()
-        return redirect(url_for('kenrokuen'))
+        return redirect(url_for('stamp1'))
     
 @app.route('/update_stamp', methods=['POST'])
 @login_required
