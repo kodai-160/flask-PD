@@ -96,7 +96,7 @@ def login():
 
         if user:
             login_user(user)
-            return redirect(url_for('stamp'))
+            return redirect(url_for('stamp_rally_moring'))
         else:
             return "Failed Login"
 
@@ -108,15 +108,33 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/stamp')
+@app.route('/stamp_rally_morning')
 @login_required
-def stamp():
+def stamp_rally_morning():
     # 現在のユーザーに関連するスタンプを取得
     user_stamps = Stamp.query.filter_by(user_id=current_user.id).all()
     # スタンプの状態を辞書として抽出
     stamps_status = {stamp.name: stamp.collected for stamp in user_stamps}
     # テンプレートにスタンプの状態を渡す
     return render_template('stamp_rally_morning.html', stamps_status=stamps_status)
+
+@app.route('/stamp_rally_noon')
+def stamp_rally_noon():
+    # 現在のユーザーに関連するスタンプを取得
+    user_stamps = Stamp.query.filter_by(user_id=current_user.id).all()
+    # スタンプの状態を辞書として抽出
+    stamps_status = {stamp.name: stamp.collected for stamp in user_stamps}
+    # テンプレートにスタンプの状態を渡す
+    return render_template('stamp_rally_noon.html', stamps_status=stamps_status)
+
+@app.route('/stamp_rally_night')
+def stamp_rally_night():
+    # 現在のユーザーに関連するスタンプを取得
+    user_stamps = Stamp.query.filter_by(user_id=current_user.id).all()
+    # スタンプの状態を辞書として抽出
+    stamps_status = {stamp.name: stamp.collected for stamp in user_stamps}
+    # テンプレートにスタンプの状態を渡す
+    return render_template('stamp_rally_night.html', stamps_status=stamps_status)
 
 @app.route('/morning/stamp1')
 def stamp1():
@@ -252,6 +270,7 @@ def night_stamp8():
 def night_stamp9():
     comments = Comment.query.all()
     return render_template('/night/stamp9.html', comments=comments)
+
 
 @app.route('/comment', methods=['GET', 'POST'])
 def comment():
