@@ -1,0 +1,80 @@
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #6495ed;
+    color: #fff;
+    padding: 10px;
+    text-align: center; 
+}
+
+.link_flex {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+}
+
+h2 {
+    margin: 0;
+    font-weight: bold;
+    flex-grow: 1; /* h2が残りのスペースを占有するようにする */
+}
+
+.center {
+    text-align: center;
+}
+
+.map {
+    text-align: center;
+}
+.comment-wrapper {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.comment-form {
+    padding: 0px;
+}
+
+.comment-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.comment-form button {
+    background-color: blue;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.comment-list {
+    list-style: none;
+    margin: 0;
+}
+
+.comment {
+    border-bottom: 1px solid #ccc;
+}
+
+.comment-header {
+    display: flex;
+}
+
+.comment-header > p:nth-child(1) {
+    margin-right: 20px;
+}
+
+.comment-body {
+    font-size: 14px;
+}
+
