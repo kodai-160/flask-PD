@@ -96,7 +96,7 @@ def login():
 
         if user:
             login_user(user)
-            return redirect(url_for('stamp_rally_moring'))
+            return redirect(url_for('stamp_rally_morning'))
         else:
             return "Failed Login"
 
@@ -281,7 +281,8 @@ def comment():
         new_comment = Comment(user_id=current_user.id, comment=comment_text, comment_date=comment_date)
         db.session.add(new_comment)
         db.session.commit()
-        return redirect(url_for('stamp1'))
+        # スタンプラリー台紙（朝）に飛ぶ
+        return redirect(url_for('stamp_rally_morning'))
     
 @app.route('/update_stamp', methods=['POST'])
 @login_required
