@@ -18,6 +18,7 @@
         </header>
         <div class="center">
             <h1>湯桶温泉</h1>
+            {% comment %} <img src="{{ url_for('img/night', filename='yuoke.png') }}" alt="My Image"> {% endcomment %}
             <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
             <button id="stop-camera-btn">カメラ停止</button>
             <video id="video" style="display:none;"></video>
@@ -148,7 +149,7 @@
                     <li class="comment">
                         <div class="comment-header">
                             <p>{{ comment.author.name }}</p>
-                            <p>{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <p>{{ comment.comment_date.strftime('%Y年%m月%d日 %H:%M') }}</p>
                         </div>
                         <div class="comment-body">
                             <p>{{ comment.comment }}</p>

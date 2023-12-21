@@ -281,8 +281,7 @@ def comment():
         new_comment = Comment(user_id=current_user.id, comment=comment_text, comment_date=comment_date)
         db.session.add(new_comment)
         db.session.commit()
-        # スタンプラリー台紙（朝）に飛ぶ
-        return redirect(url_for('stamp_rally_morning'))
+        return redirect(url_for('stamp1'))
     
 @app.route('/update_stamp', methods=['POST'])
 @login_required
