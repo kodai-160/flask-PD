@@ -25,12 +25,12 @@
         </div>
         <script>
             let videoStream;
-    
+        
             function fetchStampsAndUpdateUI() {
                 console.log('Fetching stamps and updating UI');
                 // 他の部分のコードが必要な場合はここに追加してください。
             }
-    
+        
             function startCamera() {
                 const videoElement = document.getElementById('video');
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -45,13 +45,13 @@
                         alert('カメラにアクセスできません。カメラの許可を確認してください。');
                     });
             }
-    
+        
             function scanQRCode() {
                 const videoElement = document.getElementById('video');
                 const canvasElement = document.getElementById('canvas');
                 const canvasContext = canvasElement.getContext('2d');
                 canvasElement.style.display = 'block';
-    
+        
                 const scan = () => {
                     if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
                         canvasElement.height = videoElement.videoHeight;
@@ -59,12 +59,11 @@
                         canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
                         const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
-    
+        
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'kanazawa-omotenasi') {
-                                updateStampStatus('stamp3'); // `stamp1`はkenrokuenのスタンプの`name`です。
-                                alert('スキャン成功!!');
+                            if (code.data === 'kenrokuen') {
+                                updateStampStatus('stamp7', 'night'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -72,18 +71,19 @@
                     }
                     requestAnimationFrame(scan);
                 };
-    
+        
                 scan();
             }
-    
-            function updateStampStatus(name) {
-                console.log(`Sending update for ${name}`);
+        
+            function updateStampStatus(name, time) { // time パラメータを追加
+                console.log(`Sending update for ${name} at ${time}`);
                 fetch('/update_stamp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `name=${encodeURIComponent(name)}`
+                    body: `name=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`, // リクエストボディにtimeを追加
+                    credentials: 'include'
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -94,7 +94,7 @@
                 .then(data => {
                     // サーバーからの応答に基づいてUIを更新
                     if (data.message === 'Stamp updated.') {
-                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                        updateStampUI(name, time, data.collected); // collectedの状態を引数として渡す
                     } else {
                         console.error('Stamp update failed:', data.message);
                     }
@@ -103,9 +103,9 @@
                     console.error('Error during stamp update:', error);
                 });
             }
-            
-            function updateStampUI(name, collected) {
-                const stampElement = document.getElementById(`stamp-${name}`);
+        
+            function updateStampUI(name, time, collected) { // time パラメータを追加
+                const stampElement = document.getElementById(`stamp-${name}-${time}`); // IDにtimeを追加
                 if (stampElement) {
                     if (collected) {
                         stampElement.classList.remove('uncollected');
@@ -116,7 +116,7 @@
                     }
                 }
             }
-    
+        
             function stopCamera() {
                 const videoElement = document.getElementById('video');
                 videoElement.pause();
@@ -127,10 +127,13 @@
                 const canvasElement = document.getElementById('canvas');
                 canvasElement.style.display = 'none';
             }
-    
+        
             document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
             document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
-        </script> 
+        </script>
+        
+        
+        
         <h3 class="scription">加賀藩前田家の居城跡に建てられ、2001年に復元された菱櫓、五十間長屋、橋爪門続櫓が主な見どころです。これらの建物は古絵図や古文書を元に忠実に再現されており、「玉泉院丸庭園」は独創的な景観を楽しむことができます。</h3>
         <p class="map"><iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3204.530830052879!2d136.65592312509114!3d36.565423930899954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6YeR5rKi5Z-O!5e0!3m2!1sja!2sjp!4v1702743482102!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
         <div class="comment-wrapper">

@@ -25,12 +25,12 @@
         </div>
         <script>
             let videoStream;
-    
+        
             function fetchStampsAndUpdateUI() {
                 console.log('Fetching stamps and updating UI');
                 // 他の部分のコードが必要な場合はここに追加してください。
             }
-    
+        
             function startCamera() {
                 const videoElement = document.getElementById('video');
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -45,13 +45,13 @@
                         alert('カメラにアクセスできません。カメラの許可を確認してください。');
                     });
             }
-    
+        
             function scanQRCode() {
                 const videoElement = document.getElementById('video');
                 const canvasElement = document.getElementById('canvas');
                 const canvasContext = canvasElement.getContext('2d');
                 canvasElement.style.display = 'block';
-    
+        
                 const scan = () => {
                     if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
                         canvasElement.height = videoElement.videoHeight;
@@ -59,12 +59,11 @@
                         canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
                         const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
-    
+        
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'kanazawa-omotenasi') {
-                                updateStampStatus('stamp3'); // `stamp1`はkenrokuenのスタンプの`name`です。
-                                alert('スキャン成功!!');
+                            if (code.data === 'kenrokuen') {
+                                updateStampStatus('stamp4', 'night'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -72,18 +71,19 @@
                     }
                     requestAnimationFrame(scan);
                 };
-    
+        
                 scan();
             }
-    
-            function updateStampStatus(name) {
-                console.log(`Sending update for ${name}`);
+        
+            function updateStampStatus(name, time) { // time パラメータを追加
+                console.log(`Sending update for ${name} at ${time}`);
                 fetch('/update_stamp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `name=${encodeURIComponent(name)}`
+                    body: `name=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`, // リクエストボディにtimeを追加
+                    credentials: 'include'
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -94,7 +94,7 @@
                 .then(data => {
                     // サーバーからの応答に基づいてUIを更新
                     if (data.message === 'Stamp updated.') {
-                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                        updateStampUI(name, time, data.collected); // collectedの状態を引数として渡す
                     } else {
                         console.error('Stamp update failed:', data.message);
                     }
@@ -103,9 +103,9 @@
                     console.error('Error during stamp update:', error);
                 });
             }
-            
-            function updateStampUI(name, collected) {
-                const stampElement = document.getElementById(`stamp-${name}`);
+        
+            function updateStampUI(name, time, collected) { // time パラメータを追加
+                const stampElement = document.getElementById(`stamp-${name}-${time}`); // IDにtimeを追加
                 if (stampElement) {
                     if (collected) {
                         stampElement.classList.remove('uncollected');
@@ -116,7 +116,7 @@
                     }
                 }
             }
-    
+        
             function stopCamera() {
                 const videoElement = document.getElementById('video');
                 videoElement.pause();
@@ -127,10 +127,13 @@
                 const canvasElement = document.getElementById('canvas');
                 canvasElement.style.display = 'none';
             }
-    
+        
             document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
             document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
-        </script> 
+        </script>
+        
+        
+        
         <h3 class="scription">雨や雪が多い金沢の特徴を考慮し、「駅を降りた人に傘を差し出すおもてなしの心」をコンセプトに持つ建物です。幾何学模様のガラスの天井が訪れた人を優しく迎え、鼓門は荘厳な雰囲気で、金沢の伝統芸能である能楽の鼓をイメージしています。</h3>
         <p class="map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.007200685299!2d136.64817140000002!3d36.578044299999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff8334203bb8605%3A0x5d5df6011ebba7ea!2z6YeR5rKi6aeF!5e0!3m2!1sja!2sjp!4v1702743203064!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
         <div class="comment-wrapper">

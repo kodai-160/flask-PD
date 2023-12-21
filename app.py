@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 from werkzeug.security import generate_password_hash
-import os
+import time
 from datetime import datetime
 from flask import *
 
@@ -41,10 +41,15 @@ class Stamp(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     collected = db.Column(db.Boolean, default=False, nullable=False)
+    time = db.Column(db.String(10), nullable=False)  # 'morning', 'noon', 'night' のいずれか
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))  # 外部キーの追加
 
     def __repr__(self):
         return f'<Stamp {self.name}>'
+    
+@app.context_processor
+def inject_now():
+    return {'now': int(time.time())}
     
 @login_manager.user_loader
 def load_user(user_id):
@@ -79,13 +84,6 @@ def register():
 
     return render_template('register.html')
 
-def initialize_stamps_for_user(user):
-    stamp_names = ['stamp1', 'stamp2', 'stamp3', 'stamp4', 'stamp5', 'stamp6', 'stamp7', 'stamp8', 'stamp9']
-    for name in stamp_names:
-        new_stamp = Stamp(name=name, collected=False, user_id=user.id)
-        db.session.add(new_stamp)
-    db.session.commit()
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -108,33 +106,42 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+# 新しいユーザーのスタンプを初期化する関数を更新
+def initialize_stamps_for_user(user):
+    # それぞれの時間帯について、stamp1からstamp9までを割り当てる
+    time_periods = ['morning', 'noon', 'night']
+    stamp_names = [f'stamp{i}' for i in range(1, 10)]
+    
+    for stamp_name in stamp_names:
+        for time_period in time_periods:
+            new_stamp = Stamp(name=stamp_name, collected=False, time=time_period, user_id=user.id)
+            db.session.add(new_stamp)
+    db.session.commit()
+
+
+# スタンプラリーのルートを更新して、特定の時間帯のスタンプのみを取得
 @app.route('/stamp_rally_morning')
 @login_required
 def stamp_rally_morning():
-    # 現在のユーザーに関連するスタンプを取得
-    user_stamps = Stamp.query.filter_by(user_id=current_user.id).all()
-    # スタンプの状態を辞書として抽出
-    stamps_status = {stamp.name: stamp.collected for stamp in user_stamps}
-    # テンプレートにスタンプの状態を渡す
+    morning_stamps = Stamp.query.filter_by(user_id=current_user.id, time='morning').all()
+    stamps_status = {stamp.name: stamp.collected for stamp in morning_stamps}
     return render_template('stamp_rally_morning.html', stamps_status=stamps_status)
 
+# 昼と夜のルートも同様に更新
 @app.route('/stamp_rally_noon')
+@login_required
 def stamp_rally_noon():
-    # 現在のユーザーに関連するスタンプを取得
-    user_stamps = Stamp.query.filter_by(user_id=current_user.id).all()
-    # スタンプの状態を辞書として抽出
-    stamps_status = {stamp.name: stamp.collected for stamp in user_stamps}
-    # テンプレートにスタンプの状態を渡す
+    noon_stamps = Stamp.query.filter_by(user_id=current_user.id, time='noon').all()
+    stamps_status = {stamp.name: stamp.collected for stamp in noon_stamps}
     return render_template('stamp_rally_noon.html', stamps_status=stamps_status)
 
 @app.route('/stamp_rally_night')
+@login_required
 def stamp_rally_night():
-    # 現在のユーザーに関連するスタンプを取得
-    user_stamps = Stamp.query.filter_by(user_id=current_user.id).all()
-    # スタンプの状態を辞書として抽出
-    stamps_status = {stamp.name: stamp.collected for stamp in user_stamps}
-    # テンプレートにスタンプの状態を渡す
+    night_stamps = Stamp.query.filter_by(user_id=current_user.id, time='night').all()
+    stamps_status = {stamp.name: stamp.collected for stamp in night_stamps}
     return render_template('stamp_rally_night.html', stamps_status=stamps_status)
+
 
 @app.route('/morning/stamp1')
 def stamp1():
@@ -287,8 +294,10 @@ def comment():
 @login_required
 def update_stamp():
     name = request.form.get('name')
-    if name:
-        stamp = Stamp.query.filter_by(name=name, user_id=current_user.id).first()
+    time = request.form.get('time')  # 時間帯をリクエストから取得
+
+    if name and time:
+        stamp = Stamp.query.filter_by(name=name, time=time, user_id=current_user.id).first()
         if stamp and not stamp.collected:
             stamp.collected = True
             db.session.commit()
@@ -298,7 +307,8 @@ def update_stamp():
         else:
             return jsonify({'message': 'Stamp not found.'}), 404
     else:
-        return jsonify({'message': 'Invalid stamp name.'}), 400
+        return jsonify({'message': 'Invalid stamp name or time.'}), 400
+
 
 @app.route('/get_stamps')
 @login_required
@@ -306,8 +316,6 @@ def get_stamps():
     stamps = Stamp.query.filter_by(user_id=current_user.id).all()
     stamp_list = [{'name': stamp.name, 'collected': stamp.collected} for stamp in stamps]
     return jsonify(stamps=stamp_list)
-
-
 
 if __name__ == '__main__':
     with app.app_context():

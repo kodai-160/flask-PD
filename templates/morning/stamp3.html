@@ -20,12 +20,12 @@
         <canvas id="canvas" style="display:none;"></canvas>
         <script>
             let videoStream;
-    
+        
             function fetchStampsAndUpdateUI() {
                 console.log('Fetching stamps and updating UI');
                 // 他の部分のコードが必要な場合はここに追加してください。
             }
-    
+        
             function startCamera() {
                 const videoElement = document.getElementById('video');
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -40,13 +40,13 @@
                         alert('カメラにアクセスできません。カメラの許可を確認してください。');
                     });
             }
-    
+        
             function scanQRCode() {
                 const videoElement = document.getElementById('video');
                 const canvasElement = document.getElementById('canvas');
                 const canvasContext = canvasElement.getContext('2d');
                 canvasElement.style.display = 'block';
-    
+        
                 const scan = () => {
                     if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
                         canvasElement.height = videoElement.videoHeight;
@@ -54,11 +54,11 @@
                         canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
                         const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
-    
+        
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'kenrokuen') {
-                                updateStampStatus('stamp3'); // `stamp1`はkenrokuenのスタンプの`name`です。
+                                updateStampStatus('stamp3', 'morning'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -66,18 +66,19 @@
                     }
                     requestAnimationFrame(scan);
                 };
-    
+        
                 scan();
             }
-    
-            function updateStampStatus(name) {
-                console.log(`Sending update for ${name}`);
+        
+            function updateStampStatus(name, time) { // time パラメータを追加
+                console.log(`Sending update for ${name} at ${time}`);
                 fetch('/update_stamp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `name=${encodeURIComponent(name)}`
+                    body: `name=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`, // リクエストボディにtimeを追加
+                    credentials: 'include'
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -88,7 +89,7 @@
                 .then(data => {
                     // サーバーからの応答に基づいてUIを更新
                     if (data.message === 'Stamp updated.') {
-                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                        updateStampUI(name, time, data.collected); // collectedの状態を引数として渡す
                     } else {
                         console.error('Stamp update failed:', data.message);
                     }
@@ -97,9 +98,9 @@
                     console.error('Error during stamp update:', error);
                 });
             }
-            
-            function updateStampUI(name, collected) {
-                const stampElement = document.getElementById(`stamp-${name}`);
+        
+            function updateStampUI(name, time, collected) { // time パラメータを追加
+                const stampElement = document.getElementById(`stamp-${name}-${time}`); // IDにtimeを追加
                 if (stampElement) {
                     if (collected) {
                         stampElement.classList.remove('uncollected');
@@ -110,7 +111,7 @@
                     }
                 }
             }
-    
+        
             function stopCamera() {
                 const videoElement = document.getElementById('video');
                 videoElement.pause();
@@ -121,10 +122,12 @@
                 const canvasElement = document.getElementById('canvas');
                 canvasElement.style.display = 'none';
             }
-    
+        
             document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
             document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
-        </script> 
+        </script>
+        
+         
         
         
         
