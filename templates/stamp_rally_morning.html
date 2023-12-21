@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>スタンプラリーの台紙</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally_morning.css', time=now) }}">
 </head>
 <body>
     {% include 'home.html' %}
-    <div>
-        <a href="/stamp_rally_noon">noon</a>
-        <a href="/stamp_rally_night">night</a>
-    </div>
     <h1>スタンプラリー</h1>
     <div class="stamp-card">
         <h2>スタンプカード</h2>
