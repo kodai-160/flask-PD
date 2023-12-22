@@ -93,6 +93,7 @@
                 .then(data => {
                     // サーバーからの応答に基づいてUIを更新
                     if (data.message === 'Stamp updated.') {
+                        alert('成功しました')
                         updateStampUI(name, time, data.collected); // collectedの状態を引数として渡す
                     } else {
                         console.error('Stamp update failed:', data.message);

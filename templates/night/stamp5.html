@@ -63,6 +63,7 @@
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'Kazuemati') {
+                                alert('成功しました')
                                 updateStampStatus('stamp5', 'night'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');

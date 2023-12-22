@@ -2,17 +2,21 @@
 <html lang="ja" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>兼六園</title>
+        <title>中村記念美術館</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/noon7.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
     </head>
     <body>
-        <header>
-            <div>
-                <a href="../">ホーム</a>
-                <a href="../stamp_rally_noon">スタンプ</a>
+        <div class="header">
+            <a href="/" class="title">おしまっし金沢</a>
+            <a href="{{ url_for('stamp_rally_noon') }}">戻る</a>
+        </div>
+        <section class="museum-info">
+            <h1>中村記念美術館</h1>
+            <div class="info"> 
+                中村記念美術館は金沢の茶道文化と伝統工芸を紹介する美術館です。約1000点の名品を所蔵し、喫茶室から美術館の庭園を望むことができ、リーズナブルな料金で抹茶と和菓子を楽しめます。
             </div>
-        </header>
-        <h1>兼六園</h1>
+        </section>
         <p>-------------</p>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <button id="stop-camera-btn">カメラ停止</button>
@@ -58,6 +62,7 @@
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'NakamuraKinenBizyutukan') {
+                                alert('成功しました')
                                 updateStampStatus('stamp9', 'noon'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
@@ -132,32 +137,41 @@
         
         
         <p>-------------</p>
-        <p>地図</p>
-        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
-
-        <p>コメント投稿</p>
-        <div>
-            <form action="/comment" method="post">
-                <div>
-                    <label for="name">名前</label>
-                    <input type="text" name="name" id="name">
-                </div>
-                <div>
-                    <label for="comment">コメント</label>
-                    <textarea name="comment" id="comment"></textarea>
-                </div>
-                <div>
-                    <button type="submit">投稿</button>
-                </div>
-            </form>
+        <div class="content-container">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/noon9.jpg') }}" alt="Sample Image" width="600" height="450" style="border:0;" allowfullscreen="">
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12819.22326083056!2d136.64210492073377!3d36.5587948142592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff833879dfbd437%3A0xae072341cedb9b90!2z6YeR5rKi5biC56uL5Lit5p2R6KiY5b-1576O6KGT6aSo!5e0!3m2!1sja!2sjp!4v1703220356791!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
         </div>
-        <p>コメント一覧</p>
-        {% for comment in comments %}
-            <li>
-                <p>名前：{{ comment.author.name }}</p>
-                <p>コメント：{{ comment.comment }}</p>
-                <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
-            </li>
-        {% endfor %}
-        
+
+        <div>
+            <div class="form-container">
+                <p>コメント投稿</p>
+                <form action="/comment" method="post">
+                    <div>
+                        <label for="name">名前</label>
+                        <input type="text" name="name" id="name" required>
+                    </div>
+                    <div>
+                        <label for="comment">コメント</label>
+                        <textarea name="comment" id="comment" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit">投稿</button>
+                    </div>
+                </form>
+            </div>
+            <h2>コメント一覧</h2>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <p class="comment-author">名前：{{ comment.author.name }}</p>
+                        <p class="comment-content">コメント：{{ comment.comment }}</p>
+                        <p class="comment-date">投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </body> 
