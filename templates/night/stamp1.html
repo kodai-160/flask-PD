@@ -3,16 +3,20 @@
     <head>
         <meta charset="utf-8">
         <title>アドバンスドエアー</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/noon7.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/kenrokuen.css') }}">
     </head>
     <body>
-        <header>
-            <div>
-                <a href="../">ホーム</a>
-                <a href="../stamp_rally_night">スタンプ</a>
+        <div class="header">
+            <a href="/" class="title">おしまっし金沢</a>
+            <a href="{{ url_for('stamp_rally_night') }}">戻る</a>
+        </div>
+        <section class="museum-info">
+            <h1>アドバンスドエアー</h1>
+            <div class="info"> 
+                北陸で唯一随時ヘリコプターの遊覧飛行が体験できます。兼六園や金沢駅、片町の上空を飛行し、高度を上げると加賀百万石を一望できます。視程が良ければ海はもちろん、霊峰白山や能登方面富山市まで見ることが出来ます。
             </div>
-        </header>
+        </section>
         <p>-------------</p>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <button id="stop-camera-btn">カメラ停止</button>
@@ -129,34 +133,41 @@
          
 
         <p>-------------</p>
-        <h1>説明文</h1>
-        <p>日本三名園として著名で、国の特別名勝に指定されています。広大な園内には築山、池、茶屋などがあり、四季折々の自然美を楽しむことができます。冬には雪吊りが施され、夜のライトアップでは幻想的な庭園が広がります。</p>
-        <p>地図</p>
-        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
-
-        <p>コメント投稿</p>
-        <div>
-            <form action="/comment" method="post">
-                <div>
-                    <label for="name">名前</label>
-                    <input type="text" name="name" id="name">
-                </div>
-                <div>
-                    <label for="comment">コメント</label>
-                    <textarea name="comment" id="comment"></textarea>
-                </div>
-                <div>
-                    <button type="submit">投稿</button>
-                </div>
-            </form>
+        <div class="content-container">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/night1.jpg') }}" alt="Sample Image" width="600" height="450" style="border:0;" allowfullscreen="">
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12825.414391715227!2d136.65683402055464!3d36.52146282314718!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff8368d94b22f89%3A0x90627a8253c97818!2z77yI5pyJ77yJ44Ki44OJ44OQ44Oz44K544OJ44Ko44Ki44O8!5e0!3m2!1sja!2sjp!4v1703220438810!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
         </div>
-        <p>コメント一覧</p>
-        {% for comment in comments %}
-            <li>
-                <p>名前：{{ comment.author.name }}</p>
-                <p>コメント：{{ comment.comment }}</p>
-                <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
-            </li>
-        {% endfor %}
-        
+
+        <div>
+            <div class="form-container">
+                <p>コメント投稿</p>
+                <form action="/comment" method="post">
+                    <div>
+                        <label for="name">名前</label>
+                        <input type="text" name="name" id="name" required>
+                    </div>
+                    <div>
+                        <label for="comment">コメント</label>
+                        <textarea name="comment" id="comment" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit">投稿</button>
+                    </div>
+                </form>
+            </div>
+            <h2>コメント一覧</h2>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <p class="comment-author">名前：{{ comment.author.name }}</p>
+                        <p class="comment-content">コメント：{{ comment.comment }}</p>
+                        <p class="comment-date">投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </body> 
