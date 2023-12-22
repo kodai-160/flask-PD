@@ -58,6 +58,7 @@
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'kenrokuen') {
+                                alert('成功しました')
                                 updateStampStatus('stamp6', 'morning'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
