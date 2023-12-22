@@ -8,6 +8,8 @@
 </head>
 <body>
     {% include 'home.html' %}
+    <a href="../stamp_rally_noon">昼<a>
+    <a href="../stamp_rally_noon">夜<a>
     <h1>スタンプラリー</h1>
     <div class="stamp-card">
         <h2>スタンプカード</h2>
@@ -27,6 +29,18 @@
             <a href="{{ url_for('stamp9', stamp_name='stamp9') }}" id="stamp9" class="stamp {{ 'collected' if stamps_status.get('stamp9', False) else '' }}">Stamp 9</a>
         </div>
         
+    </div>
+    <div>
+        <p>スタンプごとの観光地</p>
+        <p>stamp1: 箔座本店</p>
+        <p>stamp2: 大乗寺丘陵公園</p>
+        <p>stamp3: 石川県立歴史博物館</p>
+        <p>stamp4: 石川県立図書館</p>
+        <p>stamp5: 妙立寺（忍者寺）</p>
+        <p>stamp6: 兼六園</p>
+        <p>stamp7: 金沢海未来図書館</p>
+        <p>stamp8: 石川県金沢港大野からくり記念館</p>
+        <p>stamp9: 石川県美術館</p>
     </div>
 </body>
 </html>
