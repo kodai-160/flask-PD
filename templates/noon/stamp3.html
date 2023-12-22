@@ -2,8 +2,9 @@
 <html lang="ja" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>兼六園</title>
+        <title>忍者武器ミュージアム</title>
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/ninja.css') }}">
     </head>
     <body>
         <header>
@@ -12,7 +13,10 @@
                 <a href="../stamp_rally_noon">スタンプ</a>
             </div>
         </header>
-        <h1>兼六園</h1>
+        <h1>忍者武器ミュージアム</h1>
+        <p>
+            忍者武器ミュージアムはにし茶屋街にあり、手裏剣や鎖武器、甲冑など50種類約160点の忍者武器を展示、紹介しています。子供向けの「手裏剣体験」も楽しめ、お土産ショップでは模造刀やオリジナルグッズ、金沢の名菓や焼き物が揃っています。
+        </p>
         <p>-------------</p>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <button id="stop-camera-btn">カメラ停止</button>
@@ -133,15 +137,13 @@
         
         <p>-------------</p>
         <p>地図</p>
-        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
-
+        <p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m19!1m8!1m3!1d3516.5797811884904!2d136.64665254749616!3d36.556749272859314!3m2!1i1024!2i768!4f13.1!4m8!3e3!4m0!4m5!1s0x5ff8352c4272b4fd%3A0x1994779b4497b330!2z55-z5bed55yM6YeR5rKi5biC6YeO55S677yS5LiB55uu77yS77yW4oiS77yRIOW_jeiAheatpuWZqOODn-ODpeODvOOCuOOCouODoChOaW5qYSBXZWFwb24gTXVzZXVtKQ!3m2!1d36.557246!2d136.6475113!5e0!3m2!1sja!2sjp!4v1702621602801!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </p>
+        
         <p>コメント投稿</p>
         <div>
             <form action="/comment" method="post">
-                <div>
-                    <label for="name">名前</label>
-                    <input type="text" name="name" id="name">
-                </div>
                 <div>
                     <label for="comment">コメント</label>
                     <textarea name="comment" id="comment"></textarea>
@@ -153,11 +155,11 @@
         </div>
         <p>コメント一覧</p>
         {% for comment in comments %}
-            <li>
+            <ul class="comment">
                 <p>名前：{{ comment.author.name }}</p>
                 <p>コメント：{{ comment.comment }}</p>
                 <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
-            </li>
+            </ul>
         {% endfor %}
         
     </body> 
