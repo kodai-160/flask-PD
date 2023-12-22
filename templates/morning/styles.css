@@ -1,0 +1,99 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#video {
+    display: block;
+    margin: 0 auto;
+}
+
+#canvas {
+    display: block;
+    margin: 0 auto;
+}
+
+iframe {
+    display: block;
+    margin: 0 auto;
+}
+
+form {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.comment-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-list li {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.comment-list p {
+    margin: 5px 0;
+}
+
+/* Add more styles as needed */
