@@ -23,8 +23,22 @@ h2 {
     text-align: center;
 }
 
-.map {
-    text-align: center;
+.info {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info img {
+    width: 40%; 
+    height: auto;
+    padding: 20px;
+}
+
+.info iframe {
+    width: 40%;
+    height: auto;
+    padding: 20px;
 }
 
 .comment {
@@ -78,4 +92,3 @@ h2 {
 .comment-body {
     font-size: 14px;
 }
-
