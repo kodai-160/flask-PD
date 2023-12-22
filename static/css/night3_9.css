@@ -26,6 +26,10 @@ h2 {
 .map {
     text-align: center;
 }
+
+.comment {
+    border-bottom: 1px solid #ccc;
+}
 .comment-wrapper {
     width: 80%;
     margin: 0 auto;
@@ -62,9 +66,6 @@ h2 {
     margin: 0;
 }
 
-.comment {
-    border-bottom: 1px solid #ccc;
-}
 
 .comment-header {
     display: flex;
