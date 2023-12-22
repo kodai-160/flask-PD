@@ -1,0 +1,44 @@
+.header {
+    background-color: #4B0082; /* 画像に合わせた色 */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* 余白を調整 */
+    font-size: 24px; /* 文字の大きさを調整 */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); /* シャドウを追加 */
+}
+.header .title {
+    margin-right: auto; /* タイトルを左に押し出す */
+}
+.header a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 10px;
+}
+.header a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.museum-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.museum-info h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #333;
+}
+
+.info {
+    max-width: 800px; /* 適宜調整 */
+    margin-top: 20px;
+    font-size: 1em;
+    line-height: 1.6;
+    color: #666;
+}

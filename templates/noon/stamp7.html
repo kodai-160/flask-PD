@@ -2,17 +2,21 @@
 <html lang="ja" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>兼六園</title>
+        <title>21世紀美術館</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/noon7.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
     </head>
     <body>
-        <header>
-            <div>
-                <a href="../">ホーム</a>
-                <a href="../stamp_rally_noon">スタンプ</a>
+        <div class="header">
+            <a href="/" class="title">おしまっし金沢</a>
+            <a href="{{ url_for('stamp_rally_noon') }}">戻る</a>
+        </div>
+        <section class="museum-info">
+            <h1>21世紀美術館</h1>
+            <div class="info"> 
+                金沢21世紀美術館は現代アートの鑑賞・体験ができます。全国的に有名で、いつでも立ち寄りやすく、様々な出会いを楽しめる場所になっており、特にレアンドロ・エルリッヒの《スイミング・プール》は注目です。ミュージアムショップやレストランもあり、ゆっくり滞在するのがおすすめな観光スポットとなっています。
             </div>
-        </header>
-        <h1>兼六園</h1>
+        </section>
         <p>-------------</p>
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <button id="stop-camera-btn">カメラ停止</button>
@@ -132,8 +136,7 @@
         
         
         <p>-------------</p>
-        <p>地図</p>
-        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
+        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.719685398356!2d136.65595017563356!3d36.56087127231635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83380db53b801%3A0x512a01db8b6568c1!2z6YeR5rKiMjHkuJbntIDnvo7ooZPppKg!5e0!3m2!1sja!2sjp!4v1703210818152!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
 
         <p>コメント投稿</p>
         <div>

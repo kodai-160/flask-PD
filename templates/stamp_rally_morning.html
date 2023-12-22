@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally_morning.css', time=now) }}">
 </head>
 <body>
-    {% include 'home.html' %}
+    <div class="header">
+        <a href="/" class="title">おしまっし金沢</a>
+        <!-- ユーザーがログインしていない場合 -->
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('register') }}">Sign up</a>
+        <a href="{{ url_for('login') }}">Sign in</a>
+        <!-- ユーザーがログインしている場合 -->
+        {% else %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+    </div>
     <h1>スタンプラリー</h1>
     <div class="stamp-card">
         <h2>スタンプカード</h2>
