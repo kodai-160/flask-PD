@@ -60,8 +60,9 @@
         
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'Onokarakurikinenkan') {
-                                updateStampStatus('stamp8', 'morning'); // 時間帯を'noon'に指定
+                            if (code.data === 'KanazawaMiraiLibrary') {
+                                alert('成功しました')
+                                updateStampStatus('stamp7', 'morning'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }

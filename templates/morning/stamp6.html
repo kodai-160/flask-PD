@@ -58,8 +58,9 @@
         
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'Onokarakurikinenkan') {
-                                updateStampStatus('stamp8', 'morning'); // 時間帯を'noon'に指定
+                            if (code.data === 'kenrokuen') {
+                                updateStampStatus('stamp6', 'morning'); // 時間帯を'noon'に指定
+                                alert('成功しました')
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }

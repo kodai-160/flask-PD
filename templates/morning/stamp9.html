@@ -60,7 +60,8 @@
         
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'Onokarakurikinenkan') {
+                            if (code.data === 'IsikawaBizyutuKan') {
+                                alert('成功しました')
                                 updateStampStatus('stamp8', 'morning'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
