@@ -2,31 +2,35 @@
 <html lang="ja" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>兼六園</title>
+        <title>ひがし茶屋街</title>
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/night3_9.css') }}">
     </head>
     <body>
         <header>
-            <div>
-                <a href="../">ホーム</a>
-                <a href="../stamp">スタンプ</a>
-                <a href="../sample">kenrokuen</a>
+            <div class="header">
+                <div class="link_flex">
+                    <p><a href="../">ホーム</a></p>
+                    <p><a href="../stamp_rally_night">スタンプ</a></p>
+                </div>
+                <h2>押しまっし金沢</h2>
             </div>
         </header>
-        <h1>兼六園</h1>
-        <p>-------------</p>
-        <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
-        <button id="stop-camera-btn">カメラ停止</button>
-        <video id="video" style="display:none;"></video>
-        <canvas id="canvas" style="display:none;"></canvas>
+        <div class="center">
+            <h1>ひがし茶屋街</h1>
+            <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
+            <button id="stop-camera-btn">カメラ停止</button>
+            <video id="video" style="display:none;"></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+        </div>
         <script>
             let videoStream;
-    
+        
             function fetchStampsAndUpdateUI() {
                 console.log('Fetching stamps and updating UI');
                 // 他の部分のコードが必要な場合はここに追加してください。
             }
-    
+        
             function startCamera() {
                 const videoElement = document.getElementById('video');
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -41,13 +45,13 @@
                         alert('カメラにアクセスできません。カメラの許可を確認してください。');
                     });
             }
-    
+        
             function scanQRCode() {
                 const videoElement = document.getElementById('video');
                 const canvasElement = document.getElementById('canvas');
                 const canvasContext = canvasElement.getContext('2d');
                 canvasElement.style.display = 'block';
-    
+        
                 const scan = () => {
                     if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
                         canvasElement.height = videoElement.videoHeight;
@@ -55,11 +59,11 @@
                         canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
                         const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
-    
+        
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'kenrokuen') {
-                                updateStampStatus('stamp9'); // `stamp1`はkenrokuenのスタンプの`name`です。
+                            if (code.data === 'Higasichayagai') {
+                                updateStampStatus('stamp9', 'night'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -67,18 +71,19 @@
                     }
                     requestAnimationFrame(scan);
                 };
-    
+        
                 scan();
             }
-    
-            function updateStampStatus(name) {
-                console.log(`Sending update for ${name}`);
+        
+            function updateStampStatus(name, time) { // time パラメータを追加
+                console.log(`Sending update for ${name} at ${time}`);
                 fetch('/update_stamp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `name=${encodeURIComponent(name)}`
+                    body: `name=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`, // リクエストボディにtimeを追加
+                    credentials: 'include'
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -89,7 +94,7 @@
                 .then(data => {
                     // サーバーからの応答に基づいてUIを更新
                     if (data.message === 'Stamp updated.') {
-                        updateStampUI(name, data.collected); // collectedの状態を引数として渡す
+                        updateStampUI(name, time, data.collected); // collectedの状態を引数として渡す
                     } else {
                         console.error('Stamp update failed:', data.message);
                     }
@@ -98,9 +103,9 @@
                     console.error('Error during stamp update:', error);
                 });
             }
-            
-            function updateStampUI(name, collected) {
-                const stampElement = document.getElementById(`stamp-${name}`);
+        
+            function updateStampUI(name, time, collected) { // time パラメータを追加
+                const stampElement = document.getElementById(`stamp-${name}-${time}`); // IDにtimeを追加
                 if (stampElement) {
                     if (collected) {
                         stampElement.classList.remove('uncollected');
@@ -111,7 +116,7 @@
                     }
                 }
             }
-    
+        
             function stopCamera() {
                 const videoElement = document.getElementById('video');
                 videoElement.pause();
@@ -122,41 +127,37 @@
                 const canvasElement = document.getElementById('canvas');
                 canvasElement.style.display = 'none';
             }
-    
+        
             document.addEventListener('DOMContentLoaded', fetchStampsAndUpdateUI);
             document.getElementById('stop-camera-btn').addEventListener('click', stopCamera);
-        </script> 
+        </script>
         
         
         
-        
-        <p>-------------</p>
-        <p>地図</p>
-        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
-
-        <p>コメント投稿</p>
-        <div>
-            <form action="/comment" method="post">
-                <div>
-                    <label for="name">名前</label>
-                    <input type="text" name="name" id="name">
-                </div>
+        <h3 class="scription">和の趣を感じるフォトジェニックな写真を撮影するには最適なスポットで、着物を借りた女性観光客が伝統的な町並みで写真を撮影する光景が見られます。格式ある割烹やおしゃれな町家カフェ、伝統工芸品のセレクトショップがあり、金沢らしさを楽しむことができます。</h3>
+        <p class="map"><iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d6408.394202708879!2d136.6678799!3d36.57346779999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z44Gy44GM44GX6Iy25bGL6KGX!5e0!3m2!1sja!2sjp!4v1702743656390!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
+        <div class="comment-wrapper">
+            <form action="/comment" method="post" class="comment-form">
                 <div>
                     <label for="comment">コメント</label>
-                    <textarea name="comment" id="comment"></textarea>
+                    <textarea name="comment" id="comment" class="form-control"></textarea>
                 </div>
                 <div>
                     <button type="submit">投稿</button>
                 </div>
             </form>
+            <ul class="comment-list">
+                {% for comment in comments %}
+                    <li class="comment">
+                        <div class="comment-header">
+                            <p>{{ comment.author.name }}</p>
+                            <p>{{ comment.comment_date.strftime('%Y年%m月%d日 %H:%M') }}</p>
+                        </div>
+                        <div class="comment-body">
+                            <p>{{ comment.comment }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-        <p>コメント一覧</p>
-        {% for comment in comments %}
-            <li>
-                <p>名前：{{ comment.author.name }}</p>
-                <p>コメント：{{ comment.comment }}</p>
-                <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
-            </li>
-        {% endfor %}
-        
     </body> 
