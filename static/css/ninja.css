@@ -1,0 +1,18 @@
+header {
+    background-color: #fbff7c;
+}
+button {
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #ffff98;/*ボタン色*/
+    color: #000000;
+    border-bottom: solid 4px #b7b773;
+    border-radius: 3px;
+}
+button:active {
+    /*ボタンを押したとき*/
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);/*下に動く*/
+    border-bottom: none;/*線を消す*/
+}

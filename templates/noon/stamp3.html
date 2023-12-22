@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>忍者武器ミュージアム</title>
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/ninja.css') }}">
     </head>
     <body>
         <header>
             <div>
                 <a href="../">ホーム</a>
-                <a href="../stamp">スタンプ</a>
-                <a href="../sample">ninjabukimusium</a>
+                <a href="../stamp_rally_noon">スタンプ</a>
             </div>
         </header>
         <h1>忍者武器ミュージアム</h1>
@@ -143,10 +143,6 @@
         <div>
             <form action="/comment" method="post">
                 <div>
-                    <label for="name">名前</label>
-                    <input type="text" name="name" id="name">
-                </div>
-                <div>
                     <label for="comment">コメント</label>
                     <textarea name="comment" id="comment"></textarea>
                 </div>
@@ -157,7 +153,7 @@
         </div>
         <p>コメント一覧</p>
         {% for comment in comments %}
-            <ul>
+            <ul class="comment">
                 <p>名前：{{ comment.author.name }}</p>
                 <p>コメント：{{ comment.comment }}</p>
                 <p>投稿日：{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>

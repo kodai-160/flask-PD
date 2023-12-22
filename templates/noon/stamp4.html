@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>金沢市立安江金箔工芸館</title>
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/ninja.css') }}">
     </head>
     <body>
         <header>
@@ -141,10 +142,7 @@
         <p>コメント投稿</p>
         <div>
             <form action="/comment" method="post">
-                <div>
-                    <label for="name">名前</label>
-                    <input type="text" name="name" id="name">
-                </div>
+                
                 <div>
                     <label for="comment">コメント</label>
                     <textarea name="comment" id="comment"></textarea>
