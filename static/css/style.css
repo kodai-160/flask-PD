@@ -31,3 +31,9 @@ body, html {
     display: flex;
     display: -webkit-flex;
 }
+
+.picture {
+    width: 300px;
+    height: auto;
+    padding: 10px;
+}
