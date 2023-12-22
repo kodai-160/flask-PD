@@ -1,166 +1,126 @@
+/* Reset */
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
 }
-.section-5,
-.section-5 * {
+form {
+    width: 100%;
+}
+label, input, textarea, button {
+    width: 100%;
     box-sizing: border-box;
+    margin-bottom: 10px; /* 適宜調整してください */
 }
-.section-5 {
-    background: #ffffff;
-    width: 1920px;
-    height: 3679px;
-    position: relative;
+
+/* Overall Page Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
 }
-.sutanpu {
-    background: #d9d9d9;
-    border-radius: 50%;
-    width: 480px;
-    height: 480px;
-    position: absolute;
-    left: 278px;
-    top: 257px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
-.qr-yomitori-box {
-    background: #C7F1FF;
-    width: 716px;
-    height: 161px;
-    position: absolute;
-    left: 935px;
-    top: 416px;
+.text {
+    font-size: 16px;
 }
-.qr {
-    color: #000000;
-    text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    position: absolute;
-    left: 1024px;
-    top: 458px;
+
+/* Header Styles */
+.header {
+    background-color: #3498db;
+    padding: 10px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.map-box {
-    background: #d9d9d9;
-    width: 1440px;
-    height: 810px;
-    position: absolute;
-    left: 240px;
-    top: 1563px;
+.header a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
 }
-.div {
-    color: #000000;
-    text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    position: absolute;
-    left: 892px;
-    top: 1929px;
-}
-.setumeimidasi-box {
-    background: #C7F1FF;
-    width: 716px;
-    height: 161px;
-    position: absolute;
-    left: 244px;
-    top: 932px;
-}
-.div2 {
-    color: #000000;
-    text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    position: absolute;
-    left: 438px;
-    top: 971px;
-}
-.setumei-box {
-    background: #d9d9d9;
-    width: 1440px;
-    height: 327px;
-    position: absolute;
-    left: 240px;
-    top: 1093px;
-}
-.div3 {
-    color: #000000;
-    text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    position: absolute;
-    left: 807px;
-    top: 1215px;
-}
-.komenntomidasi-box {
-    background: #C7F1FF;
-    width: 716px;
-    height: 161px;
-    position: absolute;
-    left: 240px;
-    top: 2519px;
-}
-.div4 {
-    color: #000000;
-    text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    position: absolute;
-    left: 470px;
-    top: 2561px;
-}
-.komento-box {
-    background: #d9d9d9;
-    width: 1440px;
-    height: 810px;
-    position: absolute;
-    left: 240px;
-    top: 2680px;
+.header h1 {
+    margin: 0;
+    font-size: 24px;
 }
 .name {
-    background: #C7F1FF;
-    width: 1920px;
-    height: 117px;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-}
-.home {
-    background: #ffffff;
-    width: 214px;
-    height: 79px;
-    position: absolute;
-    left: 1680px;
-    top: 19px;
-}
-.back_bottan {
-    color: #000000;
+    flex-grow: 1;
     text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 48px;
-    font-weight: 400;
-    position: absolute;
-    left: 1739px;
-    top: 30px;
 }
-.rectangle-9 {
-    background: #C7F1FF;
-    width: 551px;
-    height: 117px;
-    position: absolute;
-    left: 684px;
-    top: 0px;
+
+/* Additional Info Section Styles */
+.additional-info {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
-.div6 {
-    color: #000000;
-    text-align: center;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    position: absolute;
-    left: 825px;
-    top: 20px;
+
+/* QR Section Styles */
+.QR {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+.QR button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.QR video,
+.QR canvas {
+    display: none;
+}
+
+/* Map Section Styles */
+.map {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+.map iframe {
+    width: 100%;
+    height: 450px;
+    border: 0;
+}
+
+/* Comments Section Styles */
+.comments, .commentslist {
+    font-size: 24px;
+    margin-top: 20px;
+}
+.comments form {
+    margin-top: 10px;
+}
+.comments label {
+    display: block;
+    margin-bottom: 5px;
+}
+.comments input, .comments textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+.comments button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 20px 40px; /* パディングを変更してボタンのサイズを2倍に */
+    font-size: 16px;
+    cursor: pointer;
+}
+.commentslist li {
+    margin-bottom: 20px;
 }

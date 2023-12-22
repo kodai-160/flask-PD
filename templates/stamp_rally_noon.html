@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタンプラリーの台紙</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally.css') }}">
+</head>
+<body>
+    {% include 'home.html' %}
+    <div>
+        <a href="/stamp_rally_morning">morning</a>
+        <a href="/stamp_rally_night">night</a>
+    </div>
+    <h1>スタンプラリー</h1>
+    <div class="stamp-card">
+        <h2>スタンプカード</h2>
+        <div class="row">
+            <a href="{{ url_for('noon_stamp1', stamp_name='stamp1') }}" id="stamp1" class="stamp {{ 'collected' if stamps_status.get('stamp1', False) else '' }}">stamp 1</a>
+            <a href="{{ url_for('noon_stamp2', stamp_name='stamp2') }}" id="stamp2" class="stamp {{ 'collected' if stamps_status.get('stamp2', False) else '' }}">Stamp 2</a>
+            <a href="{{ url_for('noon_stamp3', stamp_name='stamp3') }}" id="stamp3" class="stamp {{ 'collected' if stamps_status.get('stamp3', False) else '' }}">Stamp 3</a>
+        </div>
+        <div class="row">
+            <a href="{{ url_for('noon_stamp4', stamp_name='stamp4') }}" id="stamp4" class="stamp {{ 'collected' if stamps_status.get('stamp4', False) else '' }}">Stamp 4</a>
+            <a href="{{ url_for('noon_stamp5', stamp_name='stamp5') }}" id="stamp5" class="stamp {{ 'collected' if stamps_status.get('stamp5', False) else '' }}">Stamp 5</a>
+            <a href="{{ url_for('noon_stamp6', stamp_name='stamp6') }}" id="stamp6" class="stamp {{ 'collected' if stamps_status.get('stamp6', False) else '' }}">Stamp 6</a>
+        </div>
+        <div class="row">
+            <a href="{{ url_for('noon_stamp7', stamp_name='stamp7') }}" id="stamp7" class="stamp {{ 'collected' if stamps_status.get('stamp7', False) else '' }}">Stamp 7</a>
+            <a href="{{ url_for('noon_stamp8', stamp_name='stamp8') }}" id="stamp8" class="stamp {{ 'collected' if stamps_status.get('stamp8', False) else '' }}">Stamp 8</a>
+            <a href="{{ url_for('noon_stamp9', stamp_name='stamp9') }}" id="stamp9" class="stamp {{ 'collected' if stamps_status.get('stamp9', False) else '' }}">Stamp 9</a>
+        </div>
+        
+    </div>
+</body>
+</html>
