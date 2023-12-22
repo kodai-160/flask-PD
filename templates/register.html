@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>ユーザー登録</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div class="header">
+        <a href="/" class="title">おしまっし金沢</a>
+    </div>
     <form method="post">
         <label for="name">名前:</label>
         <input type="text" id="name" name="name" required><br>

@@ -1,3 +1,26 @@
+.header {
+    background-color: #4B0082; /* 画像に合わせた色 */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* 余白を調整 */
+    font-size: 24px; /* 文字の大きさを調整 */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); /* シャドウを追加 */
+}
+.header .title {
+    margin-right: auto; /* タイトルを左に押し出す */
+}
+.header a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 10px;
+}
+.header a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 body {
     font-family: 'Arial', sans-serif;
     text-align: center;
@@ -38,3 +61,4 @@ body {
 .row:nth-child(4) .stamp:nth-child(1) { background-color: rgba(255, 129, 102, 0.3); }
 .row:nth-child(4) .stamp:nth-child(2) { background-color: rgba(99, 132, 255, 0.3); }
 .row:nth-child(4) .stamp:nth-child(3) { background-color: rgba(132, 255, 144, 0.3); }
+

@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>スタンプラリーの台紙</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stamp_rally_noon.css', time=now) }}">
 </head>
 <body>
-    {% include 'home.html' %}
-    <div>
-        <a href="/stamp_rally_morning">morning</a>
-        <a href="/stamp_rally_night">night</a>
+    <div class="header">
+        <a href="/" class="title">おしまっし金沢</a>
+        <a href="{{ url_for('stamp_rally_morning') }}">朝</a>
+        <a href="{{ url_for('stamp_rally_night') }}">夜</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
     </div>
     <h1>スタンプラリー</h1>
     <div class="stamp-card">
@@ -31,6 +32,18 @@
             <a href="{{ url_for('noon_stamp9', stamp_name='stamp9') }}" id="stamp9" class="stamp {{ 'collected' if stamps_status.get('stamp9', False) else '' }}">Stamp 9</a>
         </div>
         
+    </div>
+    <div>
+        <p>スタンプごとの観光地</p>
+        <p>stamp1: 武家屋敷跡　野村家</p>
+        <p>stamp2: 鈴木大拙館</p>
+        <p>stamp3: 忍者武器ミュージアム</p>
+        <p>stamp4: 金沢市立安江金箔工芸館</p>
+        <p>stamp5: 金沢ふるさと偉人館</p>
+        <p>stamp6: KAMU　Kanazawa</p>
+        <p>stamp7: 21世紀美術館</p>
+        <p>stamp8: 金沢能楽美術館</p>
+        <p>stamp9: 中村記念美術館</p>
     </div>
 </body>
 </html>
