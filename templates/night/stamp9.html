@@ -62,7 +62,7 @@
         
                         if (code) {
                             console.log('QRコード検出:', code.data);
-                            if (code.data === 'kenrokuen') {
+                            if (code.data === 'Higasichayagai') {
                                 updateStampStatus('stamp9', 'night'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
@@ -151,7 +151,7 @@
                     <li class="comment">
                         <div class="comment-header">
                             <p>{{ comment.author.name }}</p>
-                            <p>{{ comment.comment_date.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <p>{{ comment.comment_date.strftime('%Y年%m月%d日 %H:%M') }}</p>
                         </div>
                         <div class="comment-body">
                             <p>{{ comment.comment }}</p>

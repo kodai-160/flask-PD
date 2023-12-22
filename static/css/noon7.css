@@ -42,3 +42,109 @@
     line-height: 1.6;
     color: #666;
 }
+
+.content-container {
+    display: flex;
+    align-items: center; /* アイテムを垂直方向の中央に配置 */
+    justify-content: center; /* アイテムを水平方向の中央に配置 */
+    padding: 20px;
+}
+
+.image-container {
+    flex: 1; /* 画像とマップが同じ幅を取るようにする */
+    padding-right: 10px; /* 画像とマップの間にスペースを作る */
+}
+
+.image-container img {
+    width: 100%; /* 画像の幅をコンテナに合わせる */
+    height: auto; /* 画像の高さを自動調整する */
+}
+
+.map-container {
+    flex: 1; /* 画像とマップが同じ幅を取るようにする */
+    padding-left: 10px; /* 画像とマップの間にスペースを作る */
+}
+
+.map-container iframe {
+    width: 100%; /* iframeの幅をコンテナに合わせる */
+    height: 400px; /* 適切な高さを設定 */
+    border: none; /* iframeのボーダーを削除 */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f8fa;
+    padding: 20px;
+    margin: 0;
+}
+
+.form-container, .comments-container {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+h2, p {
+    color: #14171a;
+    text-align: center;
+}
+
+form > div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+input[type="text"],
+textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1a91da;
+}
+
+.comments-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comments-container li {
+    border-bottom: 1px solid #e1e8ed;
+    padding: 10px;
+}
+
+.comments-container li:last-child {
+    border-bottom: none;
+}
+
+.comment-author {
+    font-weight: bold;
+}
+
+.comment-date {
+    color: #657786;
+    font-size: 0.85em;
+}

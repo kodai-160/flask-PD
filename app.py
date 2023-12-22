@@ -57,7 +57,7 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('main.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -288,8 +288,7 @@ def comment():
         new_comment = Comment(user_id=current_user.id, comment=comment_text, comment_date=comment_date)
         db.session.add(new_comment)
         db.session.commit()
-        # スタンプラリー台紙（朝）に飛ぶ
-        return redirect(url_for('stamp_rally_morning'))
+        return redirect(url_for('stamp1'))
     
 @app.route('/update_stamp', methods=['POST'])
 @login_required

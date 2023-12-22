@@ -9,34 +9,28 @@
 <body>
     <div class="header">
         <a href="/" class="title">おしまっし金沢</a>
-        <!-- ユーザーがログインしていない場合 -->
-        {% if not current_user.is_authenticated %}
-        <a href="{{ url_for('register') }}">Sign up</a>
-        <a href="{{ url_for('login') }}">Sign in</a>
-        <!-- ユーザーがログインしている場合 -->
-        {% else %}
+        <a href="{{ url_for('stamp_rally_morning') }}">朝</a>
+        <a href="{{ url_for('stamp_rally_noon') }}">昼</a>
         <a href="{{ url_for('logout') }}">Logout</a>
-    {% endif %}
     </div>
     <h1>スタンプラリー</h1>
     <div class="stamp-card">
         <h2>スタンプカード</h2>
         <div class="row">
-            <a href="{{ url_for('night_stamp1', stamp_name='stamp1') }}" id="stamp1" class="stamp {{ 'collected' if stamps_status.get('stamp1', False) else '' }}">stamp 1</a>
-            <a href="{{ url_for('night_stamp2', stamp_name='stamp2') }}" id="stamp2" class="stamp {{ 'collected' if stamps_status.get('stamp2', False) else '' }}">Stamp 2</a>
-            <a href="{{ url_for('night_stamp3', stamp_name='stamp3') }}" id="stamp3" class="stamp {{ 'collected' if stamps_status.get('stamp3', False) else '' }}">Stamp 3</a>
+            <a href="{{ url_for('stamp1', stamp_name='stamp1') }}" id="stamp1" class="stamp {{ 'collected' if stamps_status.get('stamp1', False) else '' }}">stamp 1</a>
+            <a href="{{ url_for('stamp2', stamp_name='stamp2') }}" id="stamp2" class="stamp {{ 'collected' if stamps_status.get('stamp2', False) else '' }}">Stamp 2</a>
+            <a href="{{ url_for('stamp3', stamp_name='stamp3') }}" id="stamp3" class="stamp {{ 'collected' if stamps_status.get('stamp3', False) else '' }}">Stamp 3</a>
         </div>
         <div class="row">
-            <a href="{{ url_for('night_stamp4', stamp_name='stamp4') }}" id="stamp4" class="stamp {{ 'collected' if stamps_status.get('stamp4', False) else '' }}">Stamp 4</a>
-            <a href="{{ url_for('night_stamp5', stamp_name='stamp5') }}" id="stamp5" class="stamp {{ 'collected' if stamps_status.get('stamp5', False) else '' }}">Stamp 5</a>
-            <a href="{{ url_for('night_stamp6', stamp_name='stamp6') }}" id="stamp6" class="stamp {{ 'collected' if stamps_status.get('stamp6', False) else '' }}">Stamp 6</a>
+            <a href="{{ url_for('stamp4', stamp_name='stamp4') }}" id="stamp4" class="stamp {{ 'collected' if stamps_status.get('stamp4', False) else '' }}">Stamp 4</a>
+            <a href="{{ url_for('stamp5', stamp_name='stamp5') }}" id="stamp5" class="stamp {{ 'collected' if stamps_status.get('stamp5', False) else '' }}">Stamp 5</a>
+            <a href="{{ url_for('stamp6', stamp_name='stamp6') }}" id="stamp6" class="stamp {{ 'collected' if stamps_status.get('stamp6', False) else '' }}">Stamp 6</a>
         </div>
         <div class="row">
-            <a href="{{ url_for('night_stamp7', stamp_name='stamp7') }}" id="stamp7" class="stamp {{ 'collected' if stamps_status.get('stamp7', False) else '' }}">Stamp 7</a>
-            <a href="{{ url_for('night_stamp8', stamp_name='stamp8') }}" id="stamp8" class="stamp {{ 'collected' if stamps_status.get('stamp8', False) else '' }}">Stamp 8</a>
-            <a href="{{ url_for('night_stamp9', stamp_name='stamp9') }}" id="stamp9" class="stamp {{ 'collected' if stamps_status.get('stamp9', False) else '' }}">Stamp 9</a>
+            <a href="{{ url_for('stamp7', stamp_name='stamp7') }}" id="stamp7" class="stamp {{ 'collected' if stamps_status.get('stamp7', False) else '' }}">Stamp 7</a>
+            <a href="{{ url_for('stamp8', stamp_name='stamp8') }}" id="stamp8" class="stamp {{ 'collected' if stamps_status.get('stamp8', False) else '' }}">Stamp 8</a>
+            <a href="{{ url_for('stamp9', stamp_name='stamp9') }}" id="stamp9" class="stamp {{ 'collected' if stamps_status.get('stamp9', False) else '' }}">Stamp 9</a>
         </div>
-        
     </div>
 </body>
 </html>

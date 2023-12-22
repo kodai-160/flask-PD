@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ホーム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    {% include 'home.html' %}
+    <div>
+        <h2>あなたのまだ知らない金沢を見つけに行きませんか？</h2>
+    </div>
+    <div>
+        <p>古き良き街並みとモダンな魅力が融合したこの町では、<br>
+        季節によって見える景色が異なり、違う楽しみ方ができます。<br>
+        金沢市観光スタンプラリーでは、朝、昼、夜と時間ごとに<br>
+        異なる視点から金沢の魅力を探求します。</p>
+    </div>
+    <div class="flex_column">
+        <p><img src="{{ url_for('static', filename='images/asa.jpg') }}" alt="Sample Image"></p>
+        <div>
+            <a href="../stamp_rally_morning"><h3>朝の金沢 - 穏やかな始まり</h3></a>
+            <p>朝のスタンプラリーでは、金沢の穏やかな朝の顔を紹介します。<br>
+            街がゆっくりと目覚める時間、伝統的な建物が穏やかな光に包まれる様子や、<br>
+            朝市の活気あふれる光景を通して、金沢の日常を感じ取ることができます。</p>
+        </div>
+    </div>
+    <div class="flex_column">
+        <p><img src="{{ url_for('static', filename='images/hiru.jpg') }}" alt="Sample Image"></p>
+        <div>
+            <a href="../stamp_rally_noon"><h3>昼の金沢 - 光り輝く歴史と文化</h3></a>
+            <p>昼間は、金沢の歴史と文化が輝く時間。<br>
+            スタンプラリーでは、金沢の豊かな文化遺産や、<br>
+            活気のある街の雰囲気を味わうことができます。<br>
+            伝統と現代が見事に融合した街の姿を、昼の光の下で存分に楽しめます。</p>
+        </div>
+    </div>
+    <div class="flex_column">
+        <p><img src="{{ url_for('static', filename='images/yoru.jpg') }}" alt="Sample Image"></p>
+        <div>
+            <a href="../stamp_rally_night"><h3>夜の金沢 - 幻想的な夜景</h3></a>
+            <p>夜のスタンプラリーでは、金沢のもう一つの顔、幻想的な夜景を紹介します。<br>
+            明かりがともる街並みは、昼間とは異なる魅力を放ち、訪れる人々に特別な体験を提供します。<br>
+            夜ならではの静けさと美しさを、金沢の夜に感じることができます。</p>
+        </div>
+    </div>
+</body>
+</html>
