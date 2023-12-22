@@ -2,7 +2,9 @@
 <html lang="ja" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>兼六園</title>
+        <title>石川県美術館
+        </title>
+        <link rel="stylesheet" href="styles.css">
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
     </head>
     <body>
@@ -12,8 +14,9 @@
                 <a href="../stamp_rally_morning">スタンプ</a>
             </div>
         </header>
-        <h1>兼六園</h1>
-        <p>-------------</p>
+        <h1>石川県美術館
+        </h1>
+        
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <button id="stop-camera-btn">カメラ停止</button>
         <video id="video" style="display:none;"></video>
@@ -59,7 +62,7 @@
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'IsikawaBizyutuKan') {
                                 alert('成功しました')
-                                updateStampStatus('stamp9', 'morning'); // 時間帯を'noon'に指定
+                                updateStampStatus('stamp8', 'morning'); // 時間帯を'noon'に指定
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -132,9 +135,12 @@
         
         
         
-        <p>-------------</p>
-        <p>地図</p>
-        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
+        
+        <div class="additional-info">
+            <p>石川県立美術館は地元色豊かな展示が魅力の美術館です。古九谷や加賀藩の宝物、県内作家の日本画・洋画・彫刻・工芸など幅広く展示しており、特に国宝「色絵雉香炉」や加賀蒔絵の名品、人間国宝の伝統工芸は必見です。エントランスには辻口博啓氏プロデュースのカフェもあり、地元食材のスイーツも楽しめる観光スポットになっています。
+            </p>
+        </div>
+        <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102551.97424349019!2d136.5787699377615!3d36.560159849722815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83386e0b3ec0d%3A0x9becf604cbc656f1!2z55-z5bed55yM56uL576O6KGT6aSo!5e0!3m2!1sja!2sjp!4v1703224639549!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
 
         <p>コメント投稿</p>
         <div>

@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>兼六園</title>
+        <link rel="stylesheet" href="styles.css">
         <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
     </head>
     <body>
@@ -13,7 +14,7 @@
             </div>
         </header>
         <h1>兼六園</h1>
-        <p>-------------</p>
+        
         <button onclick="startCamera()">カメラ起動・QRコード読み取り開始</button>
         <button id="stop-camera-btn">カメラ停止</button>
         <video id="video" style="display:none;"></video>
@@ -58,8 +59,8 @@
                         if (code) {
                             console.log('QRコード検出:', code.data);
                             if (code.data === 'kenrokuen') {
-                                alert('成功しました')
                                 updateStampStatus('stamp6', 'morning'); // 時間帯を'noon'に指定
+                                alert('成功しました')
                             } else {
                                 alert('スキャンされたQRコードが一致しません。');
                             }
@@ -132,8 +133,11 @@
         
         
         
-        <p>-------------</p>
-        <p>地図</p>
+        
+        <div class="additional-info">
+            <p>日本三名園として著名で、国の特別名勝に指定されています。広大な園内には築山、池、茶屋などがあり、四季折々の自然美を楽しむことができます。冬には雪吊りが施され、夜のライトアップでは幻想的な庭園が広がります。
+            </p>
+        </div>
         <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.6675647453562!2d136.66007657529306!3d36.56212777231593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff83383f9b25905%3A0x970a7b3df003f2e4!2z5YW85YWt5ZyS!5e0!3m2!1sja!2sjp!4v1700196815906!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
 
         <p>コメント投稿</p>
